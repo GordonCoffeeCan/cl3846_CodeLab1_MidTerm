@@ -8,7 +8,7 @@ public class ThirdPersonController : MonoBehaviour {
     public float speed = 5;
     public float jumpSpeed = 8;
 
-    private float _rotationSpeed = 45;
+    private float _rotationSpeed = 50;
     private float _gravity = 20;
     private Vector3 _moveDirection = Vector3.zero;
 
@@ -40,11 +40,14 @@ public class ThirdPersonController : MonoBehaviour {
         _characterCtr.Move(_moveDirection * Time.deltaTime);
 
         FaceToDirection(true);
+
+        //Test joysticks
+        Debug.Log("Right Stick X: " + Input.GetAxis("Right_Stick_X") + ", " + "Right Stick Y: " + Input.GetAxis("Right_Stick_Y"));
 	}
 
     private void FaceToDirection(bool _isFacingDirection) {
         if(_isFacingDirection == true) {
-            if(_characterCtr.velocity.magnitude > 0.05f) {
+            if(_characterCtr.velocity.magnitude > 0) {
                 _rotationPivot.forward += _characterCtr.velocity.normalized * _rotationSpeed * Time.deltaTime;
                 _rotationPivot.rotation = Quaternion.Euler(new Vector3(0, _rotationPivot.eulerAngles.y, 0));
             }
