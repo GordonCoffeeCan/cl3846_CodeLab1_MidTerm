@@ -15,9 +15,6 @@ public class DuelStickPersonController : MonoBehaviour {
     private float _rotationSpeed = 35;
     private float _gravity = 20;
     private Vector3 _moveDirection = Vector3.zero;
-    float _currentAngle = 0;
-    private float _deltaAngle = 0;
-    private float _stickAngle = 0;
 
     private CharacterController _characterCtr;
     private Transform _rotationPivot;
@@ -42,6 +39,8 @@ public class DuelStickPersonController : MonoBehaviour {
             if (Input.GetButtonDown("Jump")) {
                 _moveDirection.y = speed;
             }
+
+            PlayerAnimator.SetFloat("Speed", Mathf.Max(Mathf.Abs(Input.GetAxis("Horizontal")), Mathf.Abs(Input.GetAxis("Vertical"))));
         }
         _moveDirection.y -= _gravity * Time.deltaTime;
         _characterCtr.Move(_moveDirection * Time.deltaTime);
@@ -49,7 +48,6 @@ public class DuelStickPersonController : MonoBehaviour {
         FaceToDirection(true);
         RotatePlayer();
         SetSpin();
-        SetAnimation();
     }
 
     private void FixedUpdate() {
@@ -66,36 +64,17 @@ public class DuelStickPersonController : MonoBehaviour {
     }
 
     private void RotatePlayer() {
-        if(Mathf.Abs(Input.GetAxis("Right_Stick_X")) > 0.1f || Mathf.Abs(Input.GetAxis("Right_Stick_Y")) > 0.1f) {
-            
+        if (Mathf.Abs(Input.GetAxis("Right_Stick_X")) > 0.1f || Mathf.Abs(Input.GetAxis("Right_Stick_Y")) > 0.1f) {
             _rotationPivot.rotation = Quaternion.Slerp(_rotationPivot.rotation, Quaternion.Euler(new Vector3(0, MathAngle(-Input.GetAxis("Right_Stick_X"), -Input.GetAxis("Right_Stick_Y")), 0)), 5 * Time.deltaTime);
-
-            _currentAngle = _rotationPivot.rotation.eulerAngles.y;
-            _stickAngle = MathAngle(-Input.GetAxis("Right_Stick_X"), -Input.GetAxis("Right_Stick_Y"));
-            if (MathAngle(-Input.GetAxis("Right_Stick_X"), -Input.GetAxis("Right_Stick_Y")) < 0) {
-                _stickAngle = 360 + MathAngle(-Input.GetAxis("Right_Stick_X"), -Input.GetAxis("Right_Stick_Y"));
-
-            }
-            _deltaAngle = _stickAngle - _currentAngle;
-
-            Debug.Log(_deltaAngle);
-        } 
+        }
     }
 
     private void SetSpin() {
         if (Input.GetButton("Spin")) {
             speed = runSpeed;
+            PlayerAnimator.SetBool("Spin", true);
         } else {
             speed = walkSpeed;
-        }
-    }
-
-    private void SetAnimation() {
-        PlayerAnimator.SetFloat("Speed", Mathf.Max(Mathf.Abs(Input.GetAxis("Horizontal")), Mathf.Abs(Input.GetAxis("Vertical"))));
-        PlayerAnimator.SetFloat("Turn", _deltaAngle);
-        if (speed == runSpeed) {
-            PlayerAnimator.SetBool("Spin", true);
-        } else if(speed == walkSpeed){
             PlayerAnimator.SetBool("Spin", false);
         }
     }
