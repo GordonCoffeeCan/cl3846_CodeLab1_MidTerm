@@ -16,6 +16,8 @@ ModelImporter:
     100016: pCube9
     100018: pCube10
     100020: pCube2
+    100022: Level0_Floor:Level0_Floor
+    100024: Level0_Floor:pCube11
     400000: //RootNode
     400002: pCube1
     400004: pCube11
@@ -27,6 +29,8 @@ ModelImporter:
     400016: pCube9
     400018: pCube10
     400020: pCube2
+    400022: Level0_Floor:Level0_Floor
+    400024: Level0_Floor:pCube11
     2300000: pCube1
     2300002: pCube11
     2300004: pCube3
@@ -38,6 +42,8 @@ ModelImporter:
     2300016: pCube10
     2300018: pCube2
     2300020: //RootNode
+    2300022: Level0_Floor:Level0_Floor
+    2300024: Level0_Floor:pCube11
     3300000: pCube1
     3300002: pCube11
     3300004: pCube3
@@ -49,6 +55,8 @@ ModelImporter:
     3300016: pCube10
     3300018: pCube2
     3300020: //RootNode
+    3300022: Level0_Floor:Level0_Floor
+    3300024: Level0_Floor:pCube11
     4300000: pCube1
     4300002: pCube3
     4300004: pCube4
@@ -59,6 +67,9 @@ ModelImporter:
     4300014: pCube11
     4300016: pCube2
     4300018: pCube10
+    4300020: Level0_Floor:Level0_Floor
+    4300022: Level0_Floor:Level0_Floor1:Level0_Floor
+    4300024: Level0_Floor:pCube11
   materials:
     importMaterials: 1
     materialName: 0
