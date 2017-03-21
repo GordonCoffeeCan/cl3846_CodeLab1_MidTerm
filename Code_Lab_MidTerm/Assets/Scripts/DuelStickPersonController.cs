@@ -55,7 +55,6 @@ public class DuelStickPersonController : MonoBehaviour {
 
         SetSprint();
 
-        Debug.Log(_characterCtr.velocity.magnitude);
     }
 
     private void FixedUpdate() {
