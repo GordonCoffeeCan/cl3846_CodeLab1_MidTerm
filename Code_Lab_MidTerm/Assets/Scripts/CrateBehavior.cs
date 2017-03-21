@@ -11,12 +11,20 @@ public class CrateBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+
+    }
 
     private void OnTriggerStay(Collider _col) {
-        if (Input.GetButtonDown("Action") && _col.tag == "Player") {
-            Destroy(this.gameObject);
+        if (_col.tag == "Player") {
+            if(Input.GetJoystickNames()[0] != "") {
+                GameManager.infoText = "Press A to open Crate";
+            }else {
+                GameManager.infoText = "Press F to open Crate";
+            }
+
+            if (Input.GetButtonDown("Action")) {
+                Destroy(this.gameObject);
+            }
         }
     }
 }
