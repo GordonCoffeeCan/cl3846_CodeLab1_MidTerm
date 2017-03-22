@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class TriggerBehavior : MonoBehaviour {
     private Collider _collider;
-    private bool bombInstantiated = false;
+
+    public static GameObject pipeBomb;
 
     private void Awake() {
-        _collider = this.GetComponent<Collider>();
+        _collider = this.GetComponent<BoxCollider>();
         _collider.isTrigger = true;
     }
 
@@ -22,7 +23,7 @@ public class TriggerBehavior : MonoBehaviour {
 	}
 
     private void OnTriggerEnter(Collider _col) {
-        if(_col.tag == "Player") {
+        if(_col.tag == "Player" && GameManager.isLauncherConsoleHacked == false) {
 
             switch (this.name) {
                 case "HackerPad":
@@ -37,8 +38,8 @@ public class TriggerBehavior : MonoBehaviour {
                     break;
                 case "HackConsole":
                     if(GameManager.isHackerPadPickedUp == true) {
-                        GameManager.infoText = "Door Hacked!";
-
+                        GameManager.infoText = "Doors are Hacked!";
+                        GameManager.isDoorHacked = true;
                         GameManager.wireColor.SetColor("_SpecColor", Color.green);
                         GameManager.wireColor.SetColor("_EmissionColor", Color.green);
 
@@ -48,22 +49,41 @@ public class TriggerBehavior : MonoBehaviour {
                     }
                     break;
                 case "BreakDoors":
-                    if (GameManager.isPipeBombPickedUp == true) {
-                        if (Input.GetJoystickNames()[0] != "") {
-                            GameManager.infoText = "Press A to place PipeBomb";
-                        } else {
-                            GameManager.infoText = "Press F to place PipeBomb";
-                        }
-
-                        if (bombInstantiated == false) {
-                            if (Input.GetButtonDown("Action")) {
-                                Instantiate(Resources.Load("Prefabs/PipeBomb"), GameObject.Find("BombPivot").transform.position, Quaternion.Euler(GameObject.Find("BombPivot").transform.rotation.eulerAngles));
-                                bombInstantiated = true;
-                                GameManager.infoText = "PipeBomb placed";
+                    if(GameManager.isDoorExploded == false) {
+                        if (GameManager.isPipeBombPickedUp == true) {
+                            if (GameManager.isPipeBombPlaced == false) {
+                                if (Input.GetJoystickNames()[0] != "") {
+                                    GameManager.infoText = "Press A to place PipeBomb";
+                                } else {
+                                    GameManager.infoText = "Press F to place PipeBomb";
+                                }
                             }
+                            
+                        } else {
+                            GameManager.infoText = "Need a PipeBomb to break the door!";
                         }
-                    } else {
-                        GameManager.infoText = "Need a PipeBomb to break the door!";
+                    }
+                    break;
+                case "LauncherConsole":
+                    GameManager.infoText = "Launcher Console is hacked! You stopped North Korea world-wide Nuclear bombard! The world is saved now! ";
+                    GameManager.isLauncherConsoleHacked = true;
+                    break;
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider _col) {
+        if (_col.tag == "Player") {
+            switch (this.name) {
+                case "BreakDoors":
+                    if (GameManager.isPipeBombPlaced == false) {
+                        if (Input.GetButtonDown("Action")) {
+                            Transform _bombPivot = GameObject.Find("BombPivot").transform;
+                            pipeBomb = Instantiate(Resources.Load("Prefabs/PipeBomb"), _bombPivot.position, Quaternion.Euler(new Vector3(Random.Range(0, 360), 0, 90))) as GameObject;
+                            pipeBomb.GetComponent<BoxCollider>().enabled = false;
+                            GameManager.infoText = "PipeBomb placed";
+                            GameManager.isPipeBombPlaced = true;
+                        }
                     }
                     break;
             }

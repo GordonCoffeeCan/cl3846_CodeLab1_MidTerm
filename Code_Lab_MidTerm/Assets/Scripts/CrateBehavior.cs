@@ -15,7 +15,7 @@ public class CrateBehavior : MonoBehaviour {
     }
 
     private void OnTriggerStay(Collider _col) {
-        if (_col.tag == "Player") {
+        if (_col.tag == "Player" && GameManager.isGameOver == false) {
             if(Input.GetJoystickNames()[0] != "") {
                 GameManager.infoText = "Press A to open Crate";
             }else {

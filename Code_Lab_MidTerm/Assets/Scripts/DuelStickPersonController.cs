@@ -32,6 +32,13 @@ public class DuelStickPersonController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (GameManager.isGameOver == true) {
+            PlayerAnimator.SetFloat("Speed", 0);
+            PlayerAnimator.SetBool("Sprint", false);
+            return;
+        }
+
         if (_characterCtr.isGrounded) {
             _moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             _moveDirection = Camera.main.transform.TransformDirection(_moveDirection);
