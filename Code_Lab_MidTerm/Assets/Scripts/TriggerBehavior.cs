@@ -76,7 +76,7 @@ public class TriggerBehavior : MonoBehaviour {
         if (_col.tag == "Player") {
             switch (this.name) {
                 case "BreakDoors":
-                    if (GameManager.isPipeBombPlaced == false) {
+                    if (GameManager.isPipeBombPlaced == false && GameManager.isPipeBombPickedUp == true) {
                         if (Input.GetButtonDown("Action")) {
                             Transform _bombPivot = GameObject.Find("BombPivot").transform;
                             pipeBomb = Instantiate(Resources.Load("Prefabs/PipeBomb"), _bombPivot.position, Quaternion.Euler(new Vector3(Random.Range(0, 360), 0, 90))) as GameObject;
