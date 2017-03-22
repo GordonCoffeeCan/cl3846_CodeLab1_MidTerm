@@ -18,7 +18,7 @@ ModelImporter:
     4300000: HackDoor_Left
     4300002: HackDoor_Right
     7400000: DoorsOpen
-    7400002: DoorsClose
+    7400002: DoorsClosed
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -76,10 +76,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: DoorsClose
+      name: DoorsClosed
       takeName: Take 001
       firstFrame: 31
-      lastFrame: 60
+      lastFrame: 32
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

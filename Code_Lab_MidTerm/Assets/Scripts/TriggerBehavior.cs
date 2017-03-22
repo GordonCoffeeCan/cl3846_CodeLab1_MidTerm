@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TriggerBehavior : MonoBehaviour {
     private Collider _collider;
+    private bool bombInstantiated = false;
 
     private void Awake() {
         _collider = this.GetComponent<Collider>();
@@ -12,7 +13,7 @@ public class TriggerBehavior : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        GameManager.wireColor = Color.green;
+        
     }
 	
 	// Update is called once per frame
@@ -27,22 +28,45 @@ public class TriggerBehavior : MonoBehaviour {
                 case "HackerPad":
                     GameManager.infoText = "HackerPad picked up";
                     GameManager.isHackerPadPickedUp = true;
+                    Destroy(this.gameObject);
                     break;
                 case "PipeBomb":
                     GameManager.infoText = "PipeBomb picked up";
                     GameManager.isPipeBombPickedUp = true;
+                    Destroy(this.gameObject);
                     break;
                 case "HackConsole":
                     if(GameManager.isHackerPadPickedUp == true) {
                         GameManager.infoText = "Door Hacked!";
-                        GameManager.wireColor = Color.green;
+
+                        GameManager.wireColor.SetColor("_SpecColor", Color.green);
+                        GameManager.wireColor.SetColor("_EmissionColor", Color.green);
+
+                        GameManager.hackDoorAnim.SetBool("OpenDoor", true);
                     } else {
                         GameManager.infoText = "You need HackerPad to hack the door";
                     }
                     break;
-            }
+                case "BreakDoors":
+                    if (GameManager.isPipeBombPickedUp == true) {
+                        if (Input.GetJoystickNames()[0] != "") {
+                            GameManager.infoText = "Press A to place PipeBomb";
+                        } else {
+                            GameManager.infoText = "Press F to place PipeBomb";
+                        }
 
-            //Destroy(this.gameObject);
+                        if (bombInstantiated == false) {
+                            if (Input.GetButtonDown("Action")) {
+                                Instantiate(Resources.Load("Prefabs/PipeBomb"), GameObject.Find("BombPivot").transform.position, Quaternion.Euler(GameObject.Find("BombPivot").transform.rotation.eulerAngles));
+                                bombInstantiated = true;
+                                GameManager.infoText = "PipeBomb placed";
+                            }
+                        }
+                    } else {
+                        GameManager.infoText = "Need a PipeBomb to break the door!";
+                    }
+                    break;
+            }
         }
     }
 }

@@ -10,15 +10,15 @@ public class GameManager : MonoBehaviour {
     public static bool isDoorHacked = false;
     public static bool isDoorExploded = false;
 
-    public static Color wireColor;
+    public static Animator hackDoorAnim;
+
+    public static Material wireColor;
 
     public Text infoUI;
 
-    private Color _wireColor;
-
     private void Awake() {
-        _wireColor = GameObject.Find("Wire").GetComponent<Renderer>().material.color;
-        wireColor = _wireColor;
+        wireColor = GameObject.Find("Wire").GetComponent<Renderer>().material;
+        hackDoorAnim = GameObject.Find("HackDoors").GetComponent<Animator>();
     }
 
     // Use this for initialization
@@ -29,6 +29,5 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         infoUI.text = infoText;
-        _wireColor = wireColor;
     }
 }
