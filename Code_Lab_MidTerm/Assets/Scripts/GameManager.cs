@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour {
     private float _bombTimer = 3;
     private float _gameTimer = 0;
 
+    private bool _isTextShowedUp = false;
+
     private void Awake() {
         wireColor = GameObject.Find("Wire").GetComponent<Renderer>().material;
         hackDoorAnim = GameObject.Find("HackDoors").GetComponent<Animator>();
@@ -43,6 +45,8 @@ public class GameManager : MonoBehaviour {
         isDoorExploded = false;
         isLauncherConsoleHacked = false;
         isGameOver = false;
+
+        _isTextShowedUp = false;
 }
 	
 	// Update is called once per frame
@@ -52,10 +56,13 @@ public class GameManager : MonoBehaviour {
             if (isLauncherConsoleHacked == false) {
                 _gameTimer -= Time.deltaTime;
             } else {
-                if (Input.GetJoystickNames()[0] != "") {
-                    infoText += "Press Start to restart the game!";
-                } else {
-                    infoText += "Press Space to restart the game!";
+                if (_isTextShowedUp == false) {
+                    if (Input.GetJoystickNames()[0] != "") {
+                        infoText += "Press Start to restart the game!";
+                    } else {
+                        infoText += "Press Space to restart the game!";
+                    }
+                    _isTextShowedUp = true;
                 }
 
                 if (Input.GetButtonDown("Reset Game")) {
@@ -67,10 +74,13 @@ public class GameManager : MonoBehaviour {
             isGameOver = true;
             infoText = "GAME IS OVER! North Korea missiles are Launched. The world is under Nuclear Bombard! ";
 
-            if (Input.GetJoystickNames()[0] != "") {
-                infoText += "Press Start to restart the game!";
-            } else {
-                infoText += "Press Space to restart the game!";
+            if (_isTextShowedUp == false) {
+                if (Input.GetJoystickNames()[0] != "") {
+                    infoText += "Press Start to restart the game!";
+                } else {
+                    infoText += "Press Space to restart the game!";
+                }
+                _isTextShowedUp = true;
             }
 
             if (Input.GetButtonDown("Reset Game")) {
